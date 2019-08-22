@@ -1,0 +1,6 @@
+**/*.idea
+**/target
+**/*.iml
+**/audit.log
+**/m2.tar.gz
+

@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: greeting-hello
+  labels:
+    name: greeting
+spec:
+  replicas: 
+  template:
+    metadata:
+      labels:
+        app: greeting
+        greeting: hello
+    spec:
+      containers:
+      - name: greeting
+        image: arungupta/greeting:hello
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: "http"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: greeting-howdy
+  labels:
+    name: greeting
+spec:
+  replicas: 
+  template:
+    metadata:
+      labels:
+        app: greeting
+        greeting: howdy
+    spec:
+      containers:
+      - name: greeting
+        image: arungupta/greeting:howdy
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: "http"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting
+spec:
+  selector:
+    app: greeting
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
